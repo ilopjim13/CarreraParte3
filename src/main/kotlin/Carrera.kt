@@ -24,6 +24,7 @@ class Carrera(
 
     companion object {
         private const val KM_PARA_FILIGRANA = 20f // Cada 20 km, se realiza una filigrana.
+        private var rondas = 1
     }
 
     /**
@@ -78,18 +79,39 @@ class Carrera(
         while (estadoCarrera) {
 
             Thread.sleep(100)
-            print(".")
 
-            val vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
+            var vehiculoSeleccionado:Vehiculo
+            do {
+                vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
+            } while(vehiculoSeleccionado.kilometrosActuales == distanciaTotal)
+
             avanzarVehiculo(vehiculoSeleccionado)
 
-            val vehiculoGanador = determinarGanador()
+            clasificacionParcial()
+
+            if (participantes.minByOrNull { it.kilometrosActuales }!!.kilometrosActuales == distanciaTotal) {
+                estadoCarrera = false
+                println("\n¡Carrera finalizada!")
+                //println("\n¡¡¡ENHORABUENA ${vehiculoGanador.nombre}!!!\n")
+            }
+
+            /*val vehiculoGanador = determinarGanador()
             if (vehiculoGanador != null) {
                 estadoCarrera = false
                 println("\n¡Carrera finalizada!")
                 println("\n¡¡¡ENHORABUENA ${vehiculoGanador.nombre}!!!\n")
-            }
+            }*/
 
+
+
+        }
+    }
+
+    private fun clasificacionParcial() {
+        println("\n*** CLASIFICACIÓN PARCIAL RONDA ${rondas++} ***")
+        var cont = 1
+        participantes.sortedByDescending { it.kilometrosActuales }.forEach {
+            println("${cont++}. ${it.nombre}  ${it.obtenerInformacion()}")
         }
     }
 
@@ -259,7 +281,6 @@ class Carrera(
 
         posiciones.toList().sortedByDescending { it.second }.forEachIndexed { posicion, (nombre, kilometraje) ->
             val vehiculo = participantes.find { it.nombre == nombre }
-            val paradasRepostaje = historialAcciones[nombre]?.count { it.contains("Repostaje") } ?: 0
             val historial = historialAcciones[nombre] ?: emptyList()
 
             if (vehiculo != null)
@@ -268,7 +289,7 @@ class Carrera(
                         vehiculo,
                         posicion + 1,
                         kilometraje,
-                        paradasRepostaje,
+                        vehiculo.paradas,
                         historial
                     )
                 )

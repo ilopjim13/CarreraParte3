@@ -4,14 +4,14 @@
  * @property cilindrada La cilindrada de la motocicleta.
  * @constructor Crea una motocicleta con los parámetros especificados, heredando propiedades y funcionalidades de [Vehiculo].
  */
-class Motocicleta(
+open class Motocicleta(
     nombre: String,
     marca: String,
     modelo: String,
     capacidadCombustible: Float,
     combustibleActual: Float,
     kilometrosActuales: Float,
-    private val cilindrada: Int
+    protected val cilindrada: Int
 ) : Vehiculo(nombre, marca, modelo, capacidadCombustible, combustibleActual, kilometrosActuales) {
 
     init {
@@ -61,5 +61,9 @@ class Motocicleta(
      */
     override fun toString(): String {
         return "Motocicleta(nombre=$nombre, marca=$marca, modelo=$modelo, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, cilindrada=$cilindrada)"
+    }
+
+    override fun obtenerInformacion(): String {
+        return "Motocicleta(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
     }
 }

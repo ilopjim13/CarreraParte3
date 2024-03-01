@@ -11,7 +11,7 @@ open class Automovil(
     capacidadCombustible: Float,
     combustibleActual: Float,
     kilometrosActuales: Float,
-    private val esHibrido: Boolean
+    protected val esHibrido: Boolean
 ) : Vehiculo(nombre, marca, modelo, capacidadCombustible, combustibleActual, kilometrosActuales) {
 
     companion object {
@@ -82,5 +82,9 @@ open class Automovil(
      */
     override fun toString(): String {
         return "Automovil(nombre=$nombre, marca=$marca, modelo=$modelo, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, esElectrico=$esHibrido)"
+    }
+
+    override fun obtenerInformacion(): String {
+        return "Automovil(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
     }
 }

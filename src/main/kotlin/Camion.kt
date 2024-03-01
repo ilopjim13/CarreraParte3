@@ -13,10 +13,18 @@ class Camion(nombre: String,
     }
 
     override fun calcularAutonomia(): Float {
-        val km_por_litro = 100/16
-        val variable = peso /
+        val variable = peso / 1000
+        val km_por_litro = (100/16) + (variable * 0.2f)
 
         return combustibleActual * km_por_litro
+    }
+
+    override fun toString(): String {
+        return "Camion(nombre=$nombre, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, esElectrico=$esHibrido, peso=$peso)"
+    }
+
+    override fun obtenerInformacion(): String {
+        return "Vehiculo(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
     }
 
 

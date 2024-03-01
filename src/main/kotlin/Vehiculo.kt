@@ -28,13 +28,19 @@ open class Vehiculo(
             field = if (value < 0) 0f else value.redondear(2)
         }
 
+    var paradas = 0
+
     init {
         require(capacidadCombustible > 0) { "La capacidad del tanque debe ser un valor positivo." }
         require(combustibleActual >= 0) { "El combustible actual no puede ser negativo." }
+        require(this.nombre.isNotBlank()) {"El nombre no puede estar vacío."}
+        require(!agregarNombres(this.nombre)) {"El nombre no se puede repetir."}
     }
 
     companion object {
         const val KM_POR_LITRO = 10.0f // 10 KM por litro.
+         val nombres = mutableSetOf("")
+        private fun agregarNombres(nombre:String) = !nombres.add(nombre)
     }
 
     /**
@@ -62,8 +68,8 @@ open class Vehiculo(
      *
      * @return Una cadena de texto que representa la información del vehículo.
      */
-    fun obtenerInformacion(): String {
-        return calcularAutonomia().toString()
+    open fun obtenerInformacion(): String {
+        return "Vehiculo(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
     }
 
     /**
@@ -110,6 +116,7 @@ open class Vehiculo(
      */
     open fun repostar(cantidadARepostar: Float = 0f): Float {
         val combustiblePrevio = combustibleActual
+        paradas++
 
         if (cantidadARepostar <= 0)
             combustibleActual = capacidadCombustible // LLENO
