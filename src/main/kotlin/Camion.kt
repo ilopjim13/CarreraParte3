@@ -3,29 +3,34 @@ class Camion(nombre: String,
              combustibleActual: Float,
              kilometrosActuales: Float,
              esHibrido: Boolean,
-             var peso :Int) :Automovil(nombre, "", "", capacidadCombustible, combustibleActual, kilometrosActuales, esHibrido) {
+             private var peso :Int) :Automovil(nombre, "", "", capacidadCombustible, combustibleActual, kilometrosActuales, esHibrido) {
 
     override val marca = ""
     override val modelo = ""
+    private val variable = this.peso / 1000
+    private val kmFinal = KM_L + (variable * 0.2f)
 
     init {
         require(this.peso in (1000..10000)) {"El peso debe estar entre 1000 y 10000 Kg"}
     }
 
-    override fun calcularAutonomia(): Float {
-        val variable = peso / 1000
-        val km_por_litro = (100/16) + (variable * 0.2f)
+    companion object {
 
-        return combustibleActual * km_por_litro
+        const val KM_L = (100/16)
     }
 
-    override fun toString(): String {
-        return "Camion(nombre=$nombre, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, esElectrico=$esHibrido, peso=$peso)"
+    override fun calcularAutonomia() = combustibleActual * kmFinal
+
+    override fun actualizaCombustible(distanciaReal: Float) {
+        val combustibleGastado = (distanciaReal / KM_L)
+        combustibleActual -= combustibleGastado.redondear(2)
     }
 
-    override fun obtenerInformacion(): String {
-        return "Vehiculo(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
-    }
+    override fun toString() ="Camion(nombre=$nombre, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, esElectrico=$esHibrido, peso=$peso)"
+
+
+    override fun obtenerInformacion() = "Vehiculo(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
+
 
 
 

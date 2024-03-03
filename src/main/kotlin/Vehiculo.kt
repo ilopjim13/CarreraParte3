@@ -86,6 +86,11 @@ open class Vehiculo(
         return (distanciaARecorrer - distanciaRecorrida)
     }
 
+    fun retrasarVehiculo(cantidadRetrasar:Int) {
+        if(kilometrosActuales - cantidadRetrasar > 0) kilometrosActuales -= cantidadRetrasar
+        else kilometrosActuales = 0f
+    }
+
     /**
      * Actualiza el kilometraje actual del vehículo, sumando la distancia recorrida especificada.
      *
