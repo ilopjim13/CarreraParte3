@@ -26,14 +26,19 @@ fun String.espacios(): String {
     //return this.trim().split(" ").joinToString(" ") { i -> i.replaceFirstChar { it.uppercase() } }
 }
 
+/**
+ * Pide el numero de participantes que van a participar en la carrera y lo retorna
+ *
+ * @return devuelve un [Int] con el numero de participantes
+ */
 fun pedirParticipantes() :Int {
     var numero = -1
     do {
         print("Introduce el número de participantes: ")
         try {
             numero = readln().toInt()
-            if(numero < 0) {
-                println("**ERROR** El número debe ser mayor a 0.")
+            if(numero < 1) {
+                println("**ERROR** El número debe ser mayor a 1 participante.")
             }
         } catch (e:NumberFormatException){
             println("**ERROR** Debe de ser un número.")
@@ -43,6 +48,9 @@ fun pedirParticipantes() :Int {
     return numero
 }
 
+/**
+ * Pide el el nombre del vehiculo
+ */
 fun pedirNombre() :String {
     var nombre: String
     do {
@@ -55,6 +63,11 @@ fun pedirNombre() :String {
     return  nombre
 }
 
+/**
+ * Devuelve un automovil random
+ * @param nombre :String nombre del vehiculo aleatorio
+ * @return devuelve un [Vehiculo] automovil aleatorio
+ */
 fun automovilAleatorio(nombre:String):Vehiculo{
     val marcas = listOf("Seat","BMW","Cintroen","Renault").random()
     val modelos = listOf("Panda","M8","Sor","Espacio").random()
@@ -63,15 +76,25 @@ fun automovilAleatorio(nombre:String):Vehiculo{
     return Automovil(nombre, marcas, modelos, capacidad , actual, 0f, listOf(false, true).random())
 }
 
+/**
+ * Devuelve una motocicleta random
+ * @param nombre :String nombre del vehiculo aleatorio
+ * @return devuelve un [Vehiculo] motocicleta aleatorio
+ */
 fun motocicletaAleatorio(nombre:String):Vehiculo{
-    val marcas = listOf("Seat","BMW","Cintroen","Renault").random()
-    val modelos = listOf("Panda","M8","Sor","Espacio").random()
+    val marcas = listOf("Honda","Kawasaki","Yamaha","Ducati","Suzuki","Aprilia","Harley Davidson").random()
+    val modelos = listOf("CBR","ICF","Ninja","R1220","GSXR","Paningale","Scot", "Vulcan").random()
     val capacidad = (15..30).random().toFloat()
     val actual = capacidad * (2..10).random()/10
     val cilindradas = listOf(125,250,400,500,750,900,1000).random()
     return Motocicleta(nombre, marcas, modelos, capacidad , actual, 0f, cilindradas )
 }
 
+/**
+ * Devuelve un camion random
+ * @param nombre :String nombre del vehiculo aleatorio
+ * @return devuelve un [Vehiculo] camion aleatorio
+ */
 fun camionAleatorio(nombre:String):Vehiculo{
     val capacidad = (15..30).random().toFloat()
     val actual = capacidad * (2..10).random()/10
@@ -79,6 +102,11 @@ fun camionAleatorio(nombre:String):Vehiculo{
     return Camion(nombre, capacidad , actual, 0f, listOf(true,false).random(), peso)
 }
 
+/**
+ * Devuelve un quad random
+ * @param nombre :String nombre del vehiculo aleatorio
+ * @return devuelve un [Vehiculo] quad aleatorio
+ */
 fun quadAleatorio(nombre:String):Vehiculo{
     val capacidad = (15..30).random().toFloat()
     val actual = capacidad * (2..10).random()/10
@@ -87,6 +115,11 @@ fun quadAleatorio(nombre:String):Vehiculo{
     return Quad(nombre, capacidad , actual, 0f, cilindradas, tipo )
 }
 
+/**
+ * Elige vehiculos al azar de uno de los 4 tipos dependiendo del numero de participantes que haya
+ * @param cantidad :Int con la cantidad de participantes que va hay
+ * @return devuelve una List<[Vehiculo]> con todos los vehiculos aleatorios
+ */
 fun elegirVehiculosAleatorios(cantidad:Int) :List<Vehiculo> {
     var vehiculo:Vehiculo
     val vehiculos = mutableListOf<Vehiculo>()

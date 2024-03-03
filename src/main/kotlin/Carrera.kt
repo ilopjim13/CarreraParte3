@@ -88,22 +88,14 @@ class Carrera(
 
             clasificacionParcial()
 
-            if (participantes.minByOrNull { it.kilometrosActuales }!!.kilometrosActuales == distanciaTotal) {
-                estadoCarrera = false
-                println("\n¡Carrera finalizada!")
-                println("\n¡¡¡ENHORABUENA ${participantes.first().nombre}!!!\n")
-            }
-
-            /*val vehiculoGanador = determinarGanador()
-            if (vehiculoGanador != null) {
-                estadoCarrera = false
-                println("\n¡Carrera finalizada!")
-                println("\n¡¡¡ENHORABUENA ${vehiculoGanador.nombre}!!!\n")
-            }*/
+            lleganTodos()
 
         }
     }
 
+    /**
+     * Imprime por pantalla la clasificacion parcial de cada ronda de los participantes
+     */
     private fun clasificacionParcial() {
         println("\n*** CLASIFICACIÓN PARCIAL RONDA ${rondas++} ***")
         var cont = 1
@@ -232,9 +224,13 @@ class Carrera(
         //}
     }
 
+    /**
+     * Retrasa los vehiculos aleatoriamente entre 10 y 50 km al realizar las filigranas
+     * @param vehiculo :Vehiculo que va a retrasarse al realizar la filigrana
+     */
     private fun retrasar(vehiculo: Vehiculo) {
-        if ((1..10).random() <= 8) {
-            val retrasar = (10..20).random()
+        if ((1..10).random() <= 3) { // pongo de manera random el que se retroceda o no
+            val retrasar = (10..40).random() // le he bajado los kilometros a 40 para que no baje tanto los kilometros y salgan muchas rondas
             vehiculo.retrasarVehiculo(retrasar)
             registrarAccion(vehiculo.nombre, "Retraso: Kilometros retrasados $retrasar Km.")
         }
@@ -270,6 +266,18 @@ class Carrera(
 //
 //        return ganador
 //    }
+
+    /**
+     * Determina si todos los participantes de la carrera, han alcanzado la distancia
+     * total de la carrera, y da por finalizada la carrera cuando es asi..
+     */
+    private fun lleganTodos() {
+        if (participantes.minByOrNull { it.kilometrosActuales }!!.kilometrosActuales == distanciaTotal) {
+            estadoCarrera = false
+            println("\n¡Carrera finalizada!")
+            println("\n¡¡¡ENHORABUENA ${participantes.first().nombre}!!!\n")
+        }
+    }
 
     /**
      * Registra una acción específica realizada por un vehículo en su historial de acciones durante la carrera.

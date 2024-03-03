@@ -84,6 +84,11 @@ open class Automovil(
         return "Automovil(nombre=$nombre, marca=$marca, modelo=$modelo, capacidadCombustible=$capacidadCombustible, combustibleActual=$combustibleActual, kilometrosActuales=$kilometrosActuales, esElectrico=$esHibrido)"
     }
 
+    /**
+     * Devuelve una cadena de texto con la información de los kilómetros que puede recorrer el Automovil.
+     *
+     * @return Una cadena de texto que representa la información del Automovil.
+     */
     override fun obtenerInformacion(): String {
         return "Automovil(km = ${this.kilometrosActuales}, combustible = ${this.combustibleActual} L)"
     }
